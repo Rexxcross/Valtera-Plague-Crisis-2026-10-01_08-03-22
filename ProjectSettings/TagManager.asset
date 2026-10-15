@@ -53,6 +53,9 @@ TagManager:
   - name: Player
     uniqueID: 3873163479
     locked: 0
+  - name: Dirt
+    uniqueID: 2311302669
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []

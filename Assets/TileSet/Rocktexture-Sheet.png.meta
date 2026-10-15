@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a74cd6713defe7d4ab7e1d7711b4113d
+guid: 742b786d935b99341a0d3623ef37862e
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -202,8 +202,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 160c8b858b3f8f9458038466b2d227ba
-      internalID: 1654131439
+      spriteID: bb750bc8f1e4d7d4d8915ededd455206
+      internalID: -1613725868
       vertices: []
       indices: 
       edges: []
@@ -224,8 +224,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5bcf0113d69456546b5306786f200d9f
-      internalID: 180690724
+      spriteID: 90f11392a2e475c45b6268211f6e31da
+      internalID: 1061467615
       vertices: []
       indices: 
       edges: []
@@ -246,8 +246,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 648fad42837b5fb439301bd0fa5bb32c
-      internalID: 1497211878
+      spriteID: 45440108b25effa4e9590c9f5162e305
+      internalID: 908674316
       vertices: []
       indices: 
       edges: []
@@ -268,8 +268,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 099126acd2af5dc43ada7d78acbcedba
-      internalID: 1840256248
+      spriteID: 160a91295670136418dc0acdc67d8ea3
+      internalID: 457706041
       vertices: []
       indices: 
       edges: []
@@ -290,8 +290,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 584ca39259e49504fb49741667176bc0
-      internalID: -1022582839
+      spriteID: 271d8843f54b54045a8699b8100c43ed
+      internalID: -469865691
       vertices: []
       indices: 
       edges: []
@@ -312,8 +312,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4cfe4f2498a47524f9549974969c916f
-      internalID: -615009817
+      spriteID: d1490bd9597ea7840b49919da12cb5ff
+      internalID: 398084166
       vertices: []
       indices: 
       edges: []
@@ -334,8 +334,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3dc11ca16a407ee409c1615d70730b7d
-      internalID: -1636797074
+      spriteID: 3616fc587dae9f04da7fa8cd4dcdbffe
+      internalID: -1574292275
       vertices: []
       indices: 
       edges: []
@@ -356,8 +356,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c900613b504069e4baeab0705b9a707b
-      internalID: 320226387
+      spriteID: 117e6eed9897f68469b430d5763d28e6
+      internalID: -1398910643
       vertices: []
       indices: 
       edges: []
@@ -378,8 +378,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 19332b5f97984e7409c166aea80a498d
-      internalID: -349247618
+      spriteID: 356e4cfa5a7c0ee4782c01cc18108c36
+      internalID: 454210184
       vertices: []
       indices: 
       edges: []
@@ -388,7 +388,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e6090c7600ed14b4aad260bdc68a5cd3
+    spriteID: ff63bcce53083c14aa655776a710b9a9
     internalID: 0
     vertices: []
     indices: 
@@ -402,16 +402,16 @@ TextureImporter:
     nameFileIdTable:
       Rocktexture-Sheet_0: 7192061699105131264
       Rocktexture-Sheet_1: 6955186789158768674
-      Rocktexture-Sheet_10: 320226387
-      Rocktexture-Sheet_11: -349247618
+      Rocktexture-Sheet_10: -1398910643
+      Rocktexture-Sheet_11: 454210184
       Rocktexture-Sheet_2: 7560969648312634439
-      Rocktexture-Sheet_3: 1654131439
-      Rocktexture-Sheet_4: 180690724
-      Rocktexture-Sheet_5: 1497211878
-      Rocktexture-Sheet_6: 1840256248
-      Rocktexture-Sheet_7: -1022582839
-      Rocktexture-Sheet_8: -615009817
-      Rocktexture-Sheet_9: -1636797074
+      Rocktexture-Sheet_3: -1613725868
+      Rocktexture-Sheet_4: 1061467615
+      Rocktexture-Sheet_5: 908674316
+      Rocktexture-Sheet_6: 457706041
+      Rocktexture-Sheet_7: -469865691
+      Rocktexture-Sheet_8: 398084166
+      Rocktexture-Sheet_9: -1574292275
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

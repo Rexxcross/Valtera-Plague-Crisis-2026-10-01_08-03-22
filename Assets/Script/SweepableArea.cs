@@ -11,7 +11,8 @@ public class SweepableArea : MonoBehaviour
     public bool IsCleaned => isCleaned;
 
     public float Progress01 =>
-        isCleaned ? 1f : Mathf.Clamp01(sweepTime / secondsToClean);
+        isCleaned ? 1f :
+        Mathf.Clamp01(sweepTime / secondsToClean);
 
     public bool Sweep(float deltaTime)
     {
@@ -24,12 +25,21 @@ public class SweepableArea : MonoBehaviour
         {
             isCleaned = true;
 
-            // Hilangkan area debu setelah bersih.
+            // Hilangkan debu ketika sudah 100%.
             gameObject.SetActive(false);
 
             return true;
         }
 
         return false;
+    }
+
+    public void CancelSweep()
+    {
+        if (!isCleaned)
+        {
+            // Reset jika tombol E dilepas.
+            sweepTime = 0f;
+        }
     }
 }

@@ -1,61 +1,118 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerSweep : MonoBehaviour
 {
-    [Header("Progress UI")]
-    [SerializeField] private Slider progressBar;
+    [Header("Interaksi")]
+    [SerializeField] private TMP_Text interactionText;
+    [SerializeField] private Slider sweepSlider;
+    [SerializeField] private Camera mainCamera;
+
+    [SerializeField] private Vector3 uiOffset =
+        new Vector3(0f, 1.2f, 0f);
+
+    [Header("Progress Keseluruhan")]
+    [SerializeField, Min(1)]
+    private int totalDustRequired = 5;
+
+    [SerializeField] private TMP_Text progressText;
 
     private SweepableArea currentArea;
-    private SweepableArea[] allAreas;
-
-    private int totalAreas;
+    private int cleanedDust = 0;
 
     private void Start()
     {
-        // Ambil semua area kotor yang aktif di scene.
-        allAreas = FindObjectsByType<SweepableArea>(
-            FindObjectsSortMode.None
-        );
+        totalDustRequired = Mathf.Max(1, totalDustRequired);
 
-        totalAreas = allAreas.Length;
+        if (mainCamera == null)
+            mainCamera = Camera.main;
 
-        // Progress bar menggunakan nilai 0 sampai 1.
-        if (progressBar != null)
+        if (interactionText != null)
+            interactionText.gameObject.SetActive(false);
+
+        if (sweepSlider != null)
         {
-            progressBar.minValue = 0f;
-            progressBar.maxValue = 1f;
-            progressBar.value = 0f;
+            sweepSlider.minValue = 0f;
+            sweepSlider.maxValue = 1f;
+            sweepSlider.value = 0f;
+            sweepSlider.interactable = false;
+            sweepSlider.gameObject.SetActive(false);
         }
 
-        if (totalAreas == 0)
-        {
-            Debug.LogWarning(
-                "Tidak ditemukan objek dengan script SweepableArea."
-            );
-        }
+        UpdateProgressText();
     }
 
     private void Update()
     {
-        // Pemain harus berada di area yang bisa dibersihkan.
-        if (currentArea != null &&
-            !currentArea.IsCleaned &&
-            Keyboard.current != null &&
-            Keyboard.current.eKey.isPressed)
-        {
-            bool justCleaned = currentArea.Sweep(Time.deltaTime);
+        if (currentArea != null && currentArea.IsCleaned)
+            currentArea = null;
 
-            if (justCleaned)
+        bool holdingE =
+            currentArea != null &&
+            Keyboard.current != null &&
+            Keyboard.current.eKey.isPressed;
+
+        if (currentArea != null)
+        {
+            if (holdingE)
             {
-                Debug.Log(
-                    currentArea.name + " berhasil dibersihkan!"
-                );
+                SweepableArea area = currentArea;
+
+                // Tambahkan progress selama E ditahan.
+                bool completed = area.Sweep(Time.deltaTime);
+
+                if (sweepSlider != null)
+                    sweepSlider.value = area.Progress01;
+
+                if (completed)
+                {
+                    cleanedDust = Mathf.Min(
+                        cleanedDust + 1,
+                        totalDustRequired
+                    );
+
+                    Debug.Log("Debu berhasil dibersihkan!");
+
+                    currentArea = null;
+                    UpdateProgressText();
+                }
+            }
+            else
+            {
+                // E dilepas: batalkan penyapuan.
+                currentArea.CancelSweep();
+
+                if (sweepSlider != null)
+                    sweepSlider.value = 0f;
             }
         }
 
-        UpdateProgress();
+        UpdateInteractionUI(holdingE);
+    }
+
+    private void LateUpdate()
+    {
+        if (mainCamera == null)
+            return;
+
+        // Tempatkan UI di atas kepala Player.
+        Vector3 screenPosition =
+            mainCamera.WorldToScreenPoint(
+                transform.position + uiOffset
+            );
+
+        if (interactionText != null)
+        {
+            interactionText.transform.position = screenPosition;
+        }
+
+        if (sweepSlider != null)
+        {
+            sweepSlider.transform.position =
+                screenPosition + new Vector3(0f, -25f, 0f);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -66,8 +123,6 @@ public class PlayerSweep : MonoBehaviour
         if (area != null && !area.IsCleaned)
         {
             currentArea = area;
-
-            Debug.Log("Tahan E untuk menyapu area ini.");
         }
     }
 
@@ -78,27 +133,51 @@ public class PlayerSweep : MonoBehaviour
 
         if (area != null && currentArea == area)
         {
+            area.CancelSweep();
             currentArea = null;
+
+            if (sweepSlider != null)
+            {
+                sweepSlider.value = 0f;
+                sweepSlider.gameObject.SetActive(false);
+            }
+
+            if (interactionText != null)
+                interactionText.gameObject.SetActive(false);
         }
     }
 
-    private void UpdateProgress()
+    private void UpdateInteractionUI(bool holdingE)
     {
-        if (totalAreas == 0)
-            return;
+        bool nearDust =
+            currentArea != null && !currentArea.IsCleaned;
 
-        float totalProgress = 0f;
+        bool showPrompt = nearDust && !holdingE;
+        bool showSlider = nearDust && holdingE;
 
-        foreach (SweepableArea area in allAreas)
+        if (interactionText != null)
         {
-            totalProgress += area.Progress01;
+            if (interactionText.gameObject.activeSelf != showPrompt)
+                interactionText.gameObject.SetActive(showPrompt);
         }
 
-        float progress = totalProgress / totalAreas;
-
-        if (progressBar != null)
+        if (sweepSlider != null)
         {
-            progressBar.value = progress;
+            if (sweepSlider.gameObject.activeSelf != showSlider)
+                sweepSlider.gameObject.SetActive(showSlider);
+        }
+    }
+
+    private void UpdateProgressText()
+    {
+        int percentage = Mathf.RoundToInt(
+            cleanedDust / (float)totalDustRequired * 100f
+        );
+
+        if (progressText != null)
+        {
+            progressText.text =
+                $"Progress: {percentage}% ";
         }
     }
 }

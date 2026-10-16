@@ -1,8 +1,14 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ObjekAsset.meta
 guid: 54341cbeff25daa4abf19f7eb7722c02
 folderAsset: yes
 DefaultImporter:
+========
+guid: 265bb341a14eca949a0bacde0c3962ef
+NativeFormatImporter:
+>>>>>>>> main:Assets/TextMesh Pro/Fonts/Cinzel-Bold SDF.asset.meta
   externalObjects: {}
+  mainObjectFileID: 11400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 

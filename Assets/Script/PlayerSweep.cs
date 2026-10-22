@@ -5,6 +5,10 @@ using TMPro;
 
 public class PlayerSweep : MonoBehaviour
 {
+    [Header("Contamination Manager")]
+    [SerializeField] private ContaminationGaugeManager contaminationManager;
+    private bool sweepInProgress = false;
+
     [Header("Interaksi")]
     [SerializeField] private TMP_Text interactionText;
     [SerializeField] private Slider sweepSlider;
@@ -41,6 +45,12 @@ public class PlayerSweep : MonoBehaviour
             sweepSlider.gameObject.SetActive(false);
         }
 
+        if (contaminationManager == null)
+        {
+            contaminationManager =
+            FindAnyObjectByType<ContaminationGaugeManager>();
+        }
+
         UpdateProgressText();
     }
 
@@ -54,13 +64,16 @@ public class PlayerSweep : MonoBehaviour
             Keyboard.current != null &&
             Keyboard.current.eKey.isPressed;
 
-        if (currentArea != null)
+        if (currentArea != null)    
         {
             if (holdingE)
             {
-                SweepableArea area = currentArea;
+                sweepInProgress = true;
 
-                // Tambahkan progress selama E ditahan.
+                if (contaminationManager != null)
+                    contaminationManager.RegisterActivity();
+
+                SweepableArea area = currentArea;
                 bool completed = area.Sweep(Time.deltaTime);
 
                 if (sweepSlider != null)
@@ -73,16 +86,26 @@ public class PlayerSweep : MonoBehaviour
                         totalDustRequired
                     );
 
-                    Debug.Log("Debu berhasil dibersihkan!");
+                    if (contaminationManager != null)
+                        contaminationManager.RegisterCleaningSuccess();
 
                     currentArea = null;
+                    sweepInProgress = false;
+
                     UpdateProgressText();
                 }
             }
             else
             {
-                // E dilepas: batalkan penyapuan.
-                currentArea.CancelSweep();
+                if (sweepInProgress)
+                {
+                    currentArea.CancelSweep();
+
+                    if (contaminationManager != null)
+                        contaminationManager.RegisterFailedSweep();
+
+                    sweepInProgress = false;
+                }
 
                 if (sweepSlider != null)
                     sweepSlider.value = 0f;
@@ -133,8 +156,15 @@ public class PlayerSweep : MonoBehaviour
 
         if (area != null && currentArea == area)
         {
+            if (sweepInProgress)
+            {
+                if (contaminationManager != null)
+                    contaminationManager.RegisterFailedSweep();
+            }
+
             area.CancelSweep();
             currentArea = null;
+            sweepInProgress = false;
 
             if (sweepSlider != null)
             {
